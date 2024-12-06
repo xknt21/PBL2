@@ -19,7 +19,7 @@ def grab_contours(cnts):
         return cnts[1]
 
 directory = '/Users/kanato/Desktop/PBL2_coding/PBL2/data/tomato_data_test/' + args["grade"] + '/'
-
+ 
 area_list=[]
 perimeter_list=[]
 cnt_list = 0

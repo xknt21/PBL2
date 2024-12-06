@@ -21,14 +21,14 @@ for filename in os.listdir(directory):
         img = cv2.imread(os.path.join(directory, filename))
         cp = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         ret,thresh = cv2.threshold(cp,150,255,0)
-        # cv2.imshow('img',thresh) 
+        # cv2.imshow('img',thresh)
         cv2.waitKey(0)
         # im2,contours,hierarchy = cv2.findContours(thresh.astype(np.uint8), 1, 2)
         contours,hierachy=cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
         cnts = contours
-        b_=[] 
-        g_=[] 
-        r_=[] 
+        b_=[]
+        g_=[]
+        r_=[]
         
         for cnt in cnts:
                 if cv2.contourArea(cnt) >800: # filter small contours

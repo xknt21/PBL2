@@ -17,7 +17,7 @@ from tensorflow.keras.utils import to_categorical
 # Define constants
 input_size = [224, 224]
 train_image_path = './data/Training_set'
-test_image_path = './data/Testing_set'
+val_image_path = './data/Validation_set'
 
 # Load the VGG16 model without the top layers
 vgg = VGG16(input_shape=input_size + [3], weights='imagenet', include_top=False)
@@ -43,13 +43,13 @@ def read_data(path_image):
 
 # Load and preprocess data
 x_train, y_train = read_data(train_image_path)
-x_test, y_test = read_data(test_image_path)
+x_val, y_val = read_data(val_image_path)
 
 # Convert labels to one-hot encoding
 folders = os.listdir(train_image_path)
 num_classes = len(folders)
 y_train = to_categorical(y_train, num_classes=num_classes)
-y_test = to_categorical(y_test, num_classes=num_classes)
+y_val = to_categorical(y_val, num_classes=num_classes)
 
 # Add custom layers on top of VGG16
 x = Flatten()(vgg.output)
@@ -63,7 +63,7 @@ model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accur
 model.summary()
 
 # Train the model
-model.fit(x_train, y_train, epochs=10, batch_size=40, validation_data=(x_test, y_test))
+model.fit(x_train, y_train, epochs=10, batch_size=40, validation_data=(x_val, y_val))
 
 # Save the model architecture to a JSON file so that it can be tested in the test_code
 model_json = model.to_json()
@@ -73,4 +73,3 @@ with open("model.json", "w") as json_file:
 # Save the model weights to an HDF5 file
 model.save_weights("ckpt.weights.h5")
 print("Model saved as model.json and ckpt.weights.h5")
-
